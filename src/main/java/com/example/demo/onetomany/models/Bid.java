@@ -39,8 +39,18 @@ public class Bid {
 	/**
 	 * Usando BAG, modo más simple y sencillo
 	 */
+	/*
 	@ManyToOne(fetch = FetchType.LAZY)
     @NotNull
+    private Item item;
+	*/
+	
+	@ManyToOne
+    @JoinColumn(
+            name = "ITEM_ID",
+            updatable = false, insertable = false // Disable writing!
+    )
+    @NotNull // For schema generation
     private Item item;
 
     @NotNull

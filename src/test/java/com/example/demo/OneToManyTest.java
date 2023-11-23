@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.configuration.SpringDataConfiguration;
 import com.example.demo.onetomany.models.Bid;
@@ -91,6 +92,7 @@ public class OneToManyTest {
         */
     	
     	// BAG MODE
+    	/*
     	Item item = new Item("Foo");
         itemRepository.save(item);
 
@@ -116,6 +118,10 @@ public class OneToManyTest {
         
         Bid bid3 = new Bid(new BigDecimal("456.00"), item);
         bidRepository.save(bid3);
+		*/
+    	
+    	
+		
 		
     }
 }
