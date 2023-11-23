@@ -1,18 +1,17 @@
 package com.example.demo.onetomany.models;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import com.example.demo.Constants;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Item {
@@ -53,7 +52,8 @@ public class Item {
     */
     
     /**
-     * USANDO LIST = ARRAY LIST
+     * JOIN TABLE! Tenemos los dos modelos principales y creamos la tabla intermedia de conexión
+     * de forma automática
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
@@ -84,6 +84,7 @@ public class Item {
         this.name = name;
     }
 
+    /*
     public List<Bid> getBids() {
         //return Collections.unmodifiableSet(bids);
     	//return Collections.unmodifiableCollection(bids);
@@ -92,5 +93,14 @@ public class Item {
 
     public void addBid(Bid bid) {
         bids.add(bid);
+    }
+    */
+    
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
     }
 }
