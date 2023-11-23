@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.example.demo.Constants;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,8 +22,20 @@ public class Item {
 
     private String name;
 
+    /**
+     * BIDIRECTIONAL: el típico caso donde se genera una conexión, y la columna la tiene la entidad que es múltiple
+     * y no el dueño (en el caso, el múltiple es Bid, por eso Item no tiene en su tabla los id's de Bid)
+     */
+    /*
     @OneToMany(mappedBy = "item", // Required for bidirectional association
             fetch = FetchType.LAZY) // The default
+    private Set<Bid> bids = new HashSet<>();
+	*/
+    
+    /**
+     * CASCADE PERSIST
+     */
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
     private Set<Bid> bids = new HashSet<>();
 
     public Item() {

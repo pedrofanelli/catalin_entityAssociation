@@ -19,8 +19,19 @@ public class Bid {
     @GeneratedValue(generator = Constants.ID_GENERATOR)
     private Long id;
 
+	/**
+	 * BIDIRECTIONAL
+	 */
+	/*
     @ManyToOne(fetch = FetchType.LAZY) // Defaults to EAGER
     @JoinColumn(name = "ITEM_ID", nullable = false)
+    private Item item;
+	*/
+	
+	/**
+	 * CASCADE PERSIST
+	 */
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Item item;
 
     @NotNull
