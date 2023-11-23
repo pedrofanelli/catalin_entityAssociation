@@ -53,6 +53,8 @@ public class OneToManyTest {
         );
         */
     	
+    	// CASCADE PERSIST
+    	
     	Item item = new Item("Foo");
 
         Bid bid = new Bid(BigDecimal.valueOf(100), item);
@@ -70,6 +72,7 @@ public class OneToManyTest {
                 () -> assertEquals(2, bids.size())
         );
 
+        
         Item retrievedItem = itemRepository.findById(item.getId()).get();
 
         for (Bid someBid : bidRepository.findByItem(retrievedItem)) {
@@ -85,6 +88,6 @@ public class OneToManyTest {
                 () -> assertEquals(0, items2.size()),
                 () -> assertEquals(0, bids2.size())
         );
-
+		
     }
 }

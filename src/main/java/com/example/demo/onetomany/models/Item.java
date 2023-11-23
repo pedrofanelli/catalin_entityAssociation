@@ -33,7 +33,8 @@ public class Item {
 	*/
     
     /**
-     * CASCADE PERSIST
+     * CASCADE PERSIST: permite que al guardar el entity padre, Item, se guarden también los relacionados a él
+     * Y podría usarse también para eliminar
      */
     @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
     private Set<Bid> bids = new HashSet<>();
