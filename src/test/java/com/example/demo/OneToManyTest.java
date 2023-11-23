@@ -124,6 +124,7 @@ public class OneToManyTest {
         bidRepository.save(bid3);
 		*/
     	
+    	// with join table!
     	Item someItem = new Item("Some Item");
         itemRepository.save(someItem);
         Item otherItem = new Item("Other Item");

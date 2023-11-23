@@ -45,6 +45,9 @@ public class Bid {
     private Item item;
 	*/
 	
+	/**
+	 * Usando JOIN TABLE!
+	 */
 	@ManyToOne
     @JoinColumn(
             name = "ITEM_ID",
