@@ -1,14 +1,13 @@
 package com.example.demo.onetomany.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.example.demo.Constants;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -36,9 +35,17 @@ public class Item {
      * CASCADE PERSIST: permite que al guardar el entity padre, Item, se guarden también los relacionados a él
      * Y podría usarse también para eliminar con CascadeType.REMOVE
      */
+    /*
     @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
     private Set<Bid> bids = new HashSet<>();
-
+	*/
+    
+    /**
+     * USANDO "BAG" es decir, una lista permitiendo duplicados SIN numerar
+     */
+    @OneToMany(mappedBy = "item")
+    private Collection<Bid> bids = new ArrayList<>();
+    
     public Item() {
     }
 
@@ -58,8 +65,9 @@ public class Item {
         this.name = name;
     }
 
-    public Set<Bid> getBids() {
-        return Collections.unmodifiableSet(bids);
+    public Collection<Bid> getBids() {
+        //return Collections.unmodifiableSet(bids);
+    	return Collections.unmodifiableCollection(bids);
     }
 
     public void addBid(Bid bid) {
