@@ -31,6 +31,9 @@ public class OneToManyTest {
     @Test
     void storeLoadEntities() {
 
+    	/*
+    	 * BIDIRECTIONAL
+    	 * 
         Item item = new Item("Foo");
         Bid bid = new Bid(BigDecimal.valueOf(100), item);
         Bid bid2 = new Bid(BigDecimal.valueOf(200), item);
@@ -47,6 +50,40 @@ public class OneToManyTest {
         assertAll(
                 () -> assertEquals(1, items.size()),
                 () -> assertEquals(2, bids.size())
+        );
+        */
+    	
+    	Item item = new Item("Foo");
+
+        Bid bid = new Bid(BigDecimal.valueOf(100), item);
+        Bid bid2 = new Bid(BigDecimal.valueOf(200), item);
+        item.addBid(bid);
+        item.addBid(bid2);
+
+        itemRepository.save(item);
+
+        List<Item> items = itemRepository.findAll();
+        Set<Bid> bids = bidRepository.findByItem(item);
+
+        assertAll(
+                () -> assertEquals(1, items.size()),
+                () -> assertEquals(2, bids.size())
+        );
+
+        Item retrievedItem = itemRepository.findById(item.getId()).get();
+
+        for (Bid someBid : bidRepository.findByItem(retrievedItem)) {
+            bidRepository.delete(someBid);
+        }
+
+        itemRepository.delete(retrievedItem);
+
+        List<Item> items2 = itemRepository.findAll();
+        Set<Bid> bids2 = bidRepository.findByItem(item);
+
+        assertAll(
+                () -> assertEquals(0, items2.size()),
+                () -> assertEquals(0, bids2.size())
         );
 
     }
