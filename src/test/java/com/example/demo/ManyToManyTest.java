@@ -12,6 +12,7 @@ import com.example.demo.manytomany.models.Category;
 import com.example.demo.manytomany.models.Item;
 import com.example.demo.manytomany.repositories.CategoryRepository;
 import com.example.demo.manytomany.repositories.ItemRepository;
+import com.example.demo.services.ManyToManyService;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,45 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ManyToManyTest {
 
 	@Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
+    private ManyToManyService testService;
 
     @Test
-    @Transactional
-    public void storeLoadEntities() {
-        Category someCategory = new Category("Some Category");
-        Category otherCategory = new Category("Other Category");
+    void testStoreLoadEntities() {
 
-        Item someItem = new Item("Some Item");
-        Item otherItem = new Item("Other Item");
+        testService.storeLoadEntities();
 
-        someCategory.addItem(someItem);
-        someItem.addCategory(someCategory);
-
-        someCategory.addItem(otherItem);
-        otherItem.addCategory(someCategory);
-
-        otherCategory.addItem(someItem);
-        someItem.addCategory(otherCategory);
-
-        categoryRepository.save(someCategory);
-        categoryRepository.save(otherCategory);
-
-        Category category1 = categoryRepository.findById(someCategory.getId()).get();
-        Category category2 = categoryRepository.findById(otherCategory.getId()).get();
-
-        Item item1 = itemRepository.findById(someItem.getId()).get();
-        Item item2 = itemRepository.findById(otherItem.getId()).get();
-
-        assertAll(
-                () -> assertEquals(2, category1.getItems().size()),
-                () -> assertEquals(2, item1.getCategories().size()),
-                () -> assertEquals(1, category2.getItems().size()),
-                () -> assertEquals(1, item2.getCategories().size()),
-                () -> assertEquals(item1, category2.getItems().iterator().next()),
-                () -> assertEquals(category1, item2.getCategories().iterator().next())
-        );
     }
 }
