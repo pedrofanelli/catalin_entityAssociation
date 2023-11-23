@@ -8,6 +8,8 @@ import com.example.demo.onetomany.models.Item;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
+	/*
 	@Query("select i from Item i inner join fetch i.bids where i.id = :id")
     Item findItemWithBids(@Param("id") Long id);
+    */
 }

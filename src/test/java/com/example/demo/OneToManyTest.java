@@ -1,8 +1,9 @@
 package com.example.demo;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,12 +13,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.configuration.SpringDataConfiguration;
-import com.example.demo.onetomany.models.Bid;
 import com.example.demo.onetomany.models.Item;
+import com.example.demo.onetomany.models.User;
 import com.example.demo.onetomany.repositories.BidRepository;
 import com.example.demo.onetomany.repositories.ItemRepository;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.example.demo.onetomany.repositories.UserRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringDataConfiguration.class})
@@ -28,8 +28,12 @@ public class OneToManyTest {
 
     @Autowired
     private BidRepository bidRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
+    @Transactional
     void storeLoadEntities() {
 
     	/*
@@ -120,7 +124,29 @@ public class OneToManyTest {
         bidRepository.save(bid3);
 		*/
     	
-    	
+    	Item someItem = new Item("Some Item");
+        itemRepository.save(someItem);
+        Item otherItem = new Item("Other Item");
+        itemRepository.save(otherItem);
+
+        User someUser = new User("John Smith");
+        someUser.getBoughtItems().add(someItem); // Link
+        someItem.setBuyer(someUser); // Link
+        someUser.getBoughtItems().add(otherItem);
+        otherItem.setBuyer(someUser);
+        userRepository.save(someUser);
+
+        Item unsoldItem = new Item("Unsold Item");
+        itemRepository.save(unsoldItem);
+
+        Item item = itemRepository.findById(someItem.getId()).get();
+        Item item2 = itemRepository.findById(unsoldItem.getId()).get();
+
+        assertAll(
+                () -> assertEquals("John Smith", item.getBuyer().getUsername()),
+                () -> assertTrue(item.getBuyer().getBoughtItems().contains(item)),
+                () -> assertNull(item2.getBuyer())
+        );
 		
 		
     }
