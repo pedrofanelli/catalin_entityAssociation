@@ -55,16 +55,15 @@ public class Item {
     /**
      * USANDO LIST = ARRAY LIST
      */
-    @OneToMany
-    @JoinColumn(
-            name = "ITEM_ID",
-            nullable = false
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "ITEM_BUYER",
+            joinColumns =
+            @JoinColumn(name = "ITEM_ID"), // Defaults to ID
+            inverseJoinColumns =
+            @JoinColumn(nullable = false) // Defaults to BUYER_ID
     )
-    @OrderColumn(
-            name = "BID_POSITION", // Defaults to BIDS_ORDER
-            nullable = false
-    )
-    private List<Bid> bids = new ArrayList<>();
+    private User buyer;
     
     public Item() {
     }
