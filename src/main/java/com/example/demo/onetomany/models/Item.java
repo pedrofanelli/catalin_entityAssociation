@@ -3,14 +3,16 @@ package com.example.demo.onetomany.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import com.example.demo.Constants;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
 
 @Entity
 public class Item {
@@ -42,9 +44,27 @@ public class Item {
     
     /**
      * USANDO "BAG" es decir, una lista permitiendo duplicados SIN numerar
+     * Pero más que nada del lado de Java, Hibernate va a proteger de duplicar el dato, si
+     * nosotros intentamos guardar el mismo objeto lo tomará como el mismo y no lo agregará a la base
      */
+    /*
     @OneToMany(mappedBy = "item")
     private Collection<Bid> bids = new ArrayList<>();
+    */
+    
+    /**
+     * USANDO LIST = ARRAY LIST
+     */
+    @OneToMany
+    @JoinColumn(
+            name = "ITEM_ID",
+            nullable = false
+    )
+    @OrderColumn(
+            name = "BID_POSITION", // Defaults to BIDS_ORDER
+            nullable = false
+    )
+    private List<Bid> bids = new ArrayList<>();
     
     public Item() {
     }
@@ -65,9 +85,10 @@ public class Item {
         this.name = name;
     }
 
-    public Collection<Bid> getBids() {
+    public List<Bid> getBids() {
         //return Collections.unmodifiableSet(bids);
-    	return Collections.unmodifiableCollection(bids);
+    	//return Collections.unmodifiableCollection(bids);
+    	return Collections.unmodifiableList(bids);
     }
 
     public void addBid(Bid bid) {

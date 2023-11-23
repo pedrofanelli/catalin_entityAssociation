@@ -54,7 +54,7 @@ public class OneToManyTest {
         */
     	
     	// CASCADE PERSIST
-    	
+    	/*
     	Item item = new Item("Foo");
 
         Bid bid = new Bid(BigDecimal.valueOf(100), item);
@@ -88,6 +88,34 @@ public class OneToManyTest {
                 () -> assertEquals(0, items2.size()),
                 () -> assertEquals(0, bids2.size())
         );
+        */
+    	
+    	// BAG MODE
+    	Item item = new Item("Foo");
+        itemRepository.save(item);
+
+        Bid someBid = new Bid(new BigDecimal("123.00"), item);
+        item.addBid(someBid);
+        item.addBid(someBid);
+        bidRepository.save(someBid);
+
+        Item item2 = itemRepository.findItemWithBids(item.getId());
+
+        assertAll(
+                () -> assertEquals(2, item.getBids().size()),
+                () -> assertEquals(1, item2.getBids().size())
+        );
+
+        Bid bid = new Bid(new BigDecimal("456.00"), item);
+        item.addBid(bid); // No SELECT!
+        bidRepository.save(bid);
+
+        Item item3 = itemRepository.findItemWithBids(item.getId());
+
+        assertEquals(2, item3.getBids().size());
+        
+        Bid bid3 = new Bid(new BigDecimal("456.00"), item);
+        bidRepository.save(bid3);
 		
     }
 }
