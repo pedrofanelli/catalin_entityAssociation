@@ -17,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
-@EnableJpaRepositories("com.example.demo.onetomany.repositories") //change depending on test
+@EnableJpaRepositories("com.example.demo.manytomany.repositories") //change depending on test
 public class SpringDataConfiguration {
 
 	@Bean
@@ -52,7 +52,7 @@ public class SpringDataConfiguration {
         properties.put("hibernate.hbm2ddl.auto", "create");
         localContainerEntityManagerFactoryBean.setJpaProperties(properties);
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
-        localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.demo.onetomany"); //change depending on test
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.demo.manytomany"); //change depending on test
         return localContainerEntityManagerFactoryBean;
     }
 }
