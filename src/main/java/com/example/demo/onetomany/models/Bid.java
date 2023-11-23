@@ -31,7 +31,16 @@ public class Bid {
 	/**
 	 * CASCADE PERSIST
 	 */
+	/*
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Item item;
+	*/
+	
+	/**
+	 * Usando BAG, modo más simple y sencillo
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private Item item;
 
     @NotNull
